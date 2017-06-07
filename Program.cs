@@ -31,6 +31,7 @@ namespace cards
             }
 
             //each player chooses 3 to add to visible castle
+            int t = 0;
             foreach (Player p in players) {
                 Console.WriteLine($"{p.name}, here are your cards:");
                 for (int i = 0; i < 3; i++) {
@@ -43,6 +44,10 @@ namespace cards
                     int response = playSelection(p.hand.Count);
                     p.castle.Add(p.discard(response));
                 }
+                Console.Clear();
+                Console.WriteLine($"Pass the computer to {players[(t + 1) % 3].name}. {players[(t + 1) % 3].name}, press enter when ready.");
+                Console.ReadLine();
+                t++;
             }
             
             //cards currently in play
@@ -58,14 +63,14 @@ namespace cards
                 Console.Write("Top Cards: ");
                 for (int i = 0; i < inPlay.Count; i++) {
                     if (i == 3) { break; }
-                    Console.Write("[" + inPlay[inPlay.Count-i-1].ToString() + "] ");
+                    Console.Write(inPlay[inPlay.Count-i-1].ToString() + " ");
                 }
                 Console.WriteLine("...");
                 Console.Write($"{inPlay.Count} total cards in the pot");
                 if (d.cards.Count > 0) {
                     Console.Write($"            Cards Left in Draw Pile: {d.cards.Count}");
                 }
-                else { Console.Write("            No Cards Left in Draw Pile");}
+                else { Console.Write("                                         No Cards Left in Draw Pile");}
                 Console.WriteLine();
                 Console.WriteLine("*********************************************************************************************");
                 int topVal;
@@ -133,7 +138,7 @@ namespace cards
                     inPlay.Clear();
                 }
                 //if hand is empty and deck is empty, play from castle
-                else if (players[turn].hand.Count < 1 && d.cards.Count == 0)
+                else if (players[turn].hand.Count < 1 && d.cards.Count == 0 && players[turn].castle.Count > 3)
                 {
                     bool vCastlePlayable = is_playable(players[turn].castle, topVal, true);
                     if (vCastlePlayable)
@@ -181,7 +186,7 @@ namespace cards
                 else if (players[turn].hand.Count < 1 && d.cards.Count == 0 && players[turn].castle.Count < 4) 
                 {
                     //fix playing special cards from hand, discarding
-                    Console.WriteLine("Pick a card from your hidden castle....ooOooOooOOh");
+                    Console.WriteLine($"Pick a card from your hidden castle....ooOooOooOOh. Pick from 0 to {players[turn].castle.Count-1}");
                     int r = playSelection(players[turn].castle.Count);
                     List<Card> invisibleSelection = new List<Card>(){players[turn].castle[r]};
                     if (is_playable(invisibleSelection,topVal,true))
@@ -203,11 +208,16 @@ namespace cards
                     }
                     
                 }
-                Console.Clear();
+            
                 //check if hand and castle are empty -- GAME OVER
                 if (players[turn].hand.Count == 0 && players[turn].castle.Count == 0) {
                     System.Console.WriteLine("YOU WIIIIINNNNN!!!!!");
                     gameIsGood = false;
+                }
+                else {
+                    Console.Clear();
+                    Console.WriteLine($"Pass the computer to {players[(playCount + 1) % 3].name}.");
+                    Console.ReadLine();
                 }
                 playCount++;
             }

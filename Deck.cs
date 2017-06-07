@@ -9,9 +9,9 @@ namespace cards
             setDeck();
         }
         private void setDeck() {
-            // string[] suits = new string[4]{"Clubs", "Spades", "Hearts", "Diamonds"};
+            string[] suits = new string[4]{"Clubs", "Spades", "Hearts", "Diamonds"};
             // string[] suits = new string[4]{"\u2663", "\u2660", "\u2665", "\u2666"};
-            string[] suits = new string[4]{"♣", "♠", "♥", "♦"};
+            // string[] suits = new string[4]{"♣", "♠", "♥", "♦"};
             for (int i = 0; i < suits.Length; i++) {
                 //aces low
                 // for (int j = 1; j <= 13; j++) {
