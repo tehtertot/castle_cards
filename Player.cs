@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace cards
 {
@@ -16,6 +17,7 @@ namespace cards
         public Card draw(Deck d) {
             Card newCard = d.deal();
             hand.Add(newCard);
+            sortHand();
             return newCard;
         }
         public Card discard(int i) {
@@ -27,8 +29,9 @@ namespace cards
                 hand.RemoveAt(i);
                 return toDiscard;
             }
-            
-
+        }
+        public void sortHand() {
+            hand.Sort(new Comparison<Card>((x,y) => x.val.CompareTo(y.val)));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace cards
             }
         }
         public override string ToString() {
-            return stringVal + " of " + suit;
+            return "[" + stringVal + " of " + suit + "]";
         }
     }
 }
